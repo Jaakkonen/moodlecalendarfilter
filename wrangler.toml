@@ -1,4 +1,4 @@
-name = "ata" # todo
+name = "calendar"
 workers_dev = true
 
 main = "build/worker/shim.mjs"

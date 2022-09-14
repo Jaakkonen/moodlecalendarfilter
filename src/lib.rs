@@ -41,7 +41,7 @@ struct CalendarSettings{
     renames: HashMap<String, String>,
 }
 
-const BASE_URL: &str = "https://lim.fi";
+const BASE_URL: &str = "https://calendar.lim.fi";
 
 #[event(fetch)]
 pub async fn main(req: Request, env: Env, _ctx: worker::Context) -> Result<Response> {
