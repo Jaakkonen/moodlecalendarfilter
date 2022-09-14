@@ -4,6 +4,10 @@ workers_dev = true
 main = "build/worker/shim.mjs"
 compatibility_date = "2022-01-20"
 
+kv_namespaces = [
+  { binding = "MYCO_CAL_FILTERS", id = "6b578fbbdb0c4592ae563f8747520621", preview_id = "c908536508694ba585b6eb89b7aca413" }
+]
+
 [vars]
 WORKERS_RS_VERSION = "0.0.9"
 
