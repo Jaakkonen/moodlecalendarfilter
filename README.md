@@ -16,10 +16,10 @@ $ curl -X POST https://calendar.lim.fi -d '{
     "Learning Rust 101": "Rust"
   }
 }'
-{"filtered_url": "https://lim.fi/AUTH_TOKEN_HEX"}
+{"filtered_url": "https://calendar.lim.fi/AUTH_TOKEN_HEX"}
 ```
 
-Now you can get your filtered calendar subscription at `https://lim.fi/AUTH_TOKEN_HEX` (with your own authtoken there).
+Now you can get your filtered calendar subscription at `https://calendar.lim.fi/AUTH_TOKEN_HEX` (with your own authtoken there).
 
 ## Development
 
