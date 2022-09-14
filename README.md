@@ -1,48 +1,37 @@
-# Template: worker-rust
+# MyCourses calendar filter
 
-A template for kick starting a Cloudflare worker project using [`workers-rs`](https://github.com/cloudflare/workers-rs).
-
-This template is designed for compiling Rust to WebAssembly and publishing the resulting worker to Cloudflare's [edge infrastructure](https://www.cloudflare.com/network/).
-
-## Setup
-
-To create a `my-project` directory using this template, run:
-
-```sh
-$ npm init cloudflare my-project worker-rust
-# or
-$ yarn create cloudflare my-project worker-rust
-# or
-$ pnpm create cloudflare my-project worker-rust
-```
-
-> **Note:** Each command invokes [`create-cloudflare`](https://www.npmjs.com/package/create-cloudflare) for project creation.
+A webservice that allows users to alias course names from Moodle calendar exports.
 
 ## Usage
 
-This template starts you off with a `src/lib.rs` file, acting as an entrypoint for requests hitting your Worker. Feel free to add more code in this file, or create Rust modules anywhere else for this project to use.
+Create a moodle calendar export link for all events in recent and next 60 days. [Export Calendar](https://mycourses.aalto.fi/calendar/export.php) in Aalto University MyCourses.
 
-With `wrangler`, you can build, test, and deploy your Worker with the following commands:
-
+Set up your calendar filter setups by
 ```sh
-# compiles your project to WebAssembly and will warn of any issues
-$ npm run build
-
-# run your Worker in an ideal development workflow (with a local server, file watcher & more)
-$ npm run dev
-
-# deploy your Worker globally to the Cloudflare network (update your wrangler.toml file for configuration)
-$ npm run deploy
+$ curl -X POST https://calendar.lim.fi -d '{
+  "url": "https://moodle.example.com/calendar/export_execute.php?userid=USER_ID_INT&authtoken=AUTH_TOKEN_HEX&preset_what=all&preset_time=recentupcoming",
+  "renames": {
+    "Course Name 1 D": "CN",
+    "Introduction to Programming": "IntroP",
+    "Learning Rust 101": "Rust"
+  }
+}'
+{"filtered_url": "https://lim.fi/AUTH_TOKEN_HEX"}
 ```
 
-Read the latest `worker` crate documentation here: https://docs.rs/worker
+Now you can get your filtered calendar subscription at `https://lim.fi/AUTH_TOKEN_HEX` (with your own authtoken there).
 
-## WebAssembly
+## Development
 
-`workers-rs` (the Rust SDK for Cloudflare Workers used in this template) is meant to be executed as compiled WebAssembly, and as such so **must** all the code you write and depend upon. All crates and modules used in Rust-based Workers projects have to compile to the `wasm32-unknown-unknown` triple.
+The service is written in Rust utilizing [workers-rs](https://github.com/cloudflare/workers-rs) and is deployed to Cloudflare Workers.
 
-Read more about this on the [`workers-rs`](https://github.com/cloudflare/workers-rs) project README.
+Running locally
+```sh
+$ wrangler2 dev --local
+```
+This exposes the endpoints to `127.0.0.1:8787`
 
-## Issues
-
-If you have any problems with the `worker` crate, please open an issue on the upstream project issue tracker on the [`workers-rs` repository](https://github.com/cloudflare/workers-rs).
+Deploying
+```sh
+$ wrangler2 publish
+```
